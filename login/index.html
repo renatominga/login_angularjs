@@ -1,0 +1,68 @@
+<html ng-app="login">
+	<meta charset="UTF-8" />
+	<head>
+		<title>Tela de Login</title>
+		<link rel="stylesheet" type="text/css" href="lib/bootstrap/bootstrap.css" />
+		<link rel="stylesheet" type="text/css" href="estilo.css" />
+		<script src="lib/angular/angular.js"></script>
+		<script src="lib/angular/angular-locale_pt-br.js"></script>
+		<script>
+				angular.module("login", []);
+				angular.module("login").controller("loginCrtl", function ($scope){
+					
+					$scope.app = "Login";
+					
+					$scope.login = [
+						{log: "renatominga", password:"123456789"}
+					];
+					
+					$scope.validarLogin = function(logon){
+						if ($scope.logon.log == 'renatominga' && $scope.logon.password == '123456789') {
+							document.getElementById('erroLogin').style.display="none";
+							document.getElementById('corretoLogin').style.display="block";
+							window.location="loginCorreto.html";
+
+						}	
+						else {
+							document.getElementById('corretoLogin').style.display="none";
+							document.getElementById('erroLogin').style.display="block";
+							document.loginForm.reset();
+						}		
+					};
+				
+			});
+		</script>
+	</head>
+	
+	<body ng-controller="loginCrtl">
+		<div class="jumbotron">
+			<h3>{{app}}</h3>
+			<table class="table">
+				<tr>
+					<th>Login</th>
+					<th>Senha</th>
+					<tr ng-repeat="logon in login">
+						<td>{{logon.log}}</td>
+						<td>{{logon.password}}</td>
+					</tr>
+				</tr>
+			</table>
+			<hr />
+			<form name="loginForm"> <!--ng-submit="validarLogin(logon)"-->
+				<input class="form-control" type="text" ng-model="logon.log" name="nome" placeholder="Nome" ng-required="true" />
+				<input class="form-control" type="password" ng-model="logon.password" name="senha" placeholder="Senha" ng-required="true" />
+			
+			 <div ng-show="loginForm.nome.$dirty" id="erroLogin" class="alert alert-danger" style="display: none">
+				Login errado!
+			</div>
+			<div ng-show="loginForm.nome.$dirty" id="corretoLogin" class="alert alert-danger" style="display: none">
+				Login certo!
+			</div>
+			
+			<button class="btn btn-primary btn-block" ng-click="validarLogin(logon)" type="submit" ng-disabled="loginForm.$invalid" >Entrar</button>
+			</form>
+		</div>
+	</body>
+</html>
+
+		
